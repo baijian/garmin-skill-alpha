@@ -27,6 +27,7 @@ HEALTH_EXTENDED = HEALTH_DIR / "garmin_data_extended.py"
 HEALTH_CHART = HEALTH_DIR / "garmin_chart.py"
 HEALTH_QUERY = HEALTH_DIR / "garmin_query.py"
 HEALTH_ACTIVITY_FILES = HEALTH_DIR / "garmin_activity_files.py"
+HEALTH_DAILY_SLEEP_CN = HEALTH_DIR / "scripts" / "daily_sleep_report_cn.py"
 CN_CLI = CN_DIR / "garmin_cli.py"
 FIT_PARSER = CN_DIR / "fit_file_parser.py"
 SYNC_CLI = SYNC_DIR / "sync.py"
@@ -77,6 +78,7 @@ HEALTH_HELP = """Health route examples:
   garmin.py health chart dashboard --days 30
   garmin.py health query heart_rate "15:00" --date 2026-06-10
   garmin.py health activity-files download --activity-id 123456 --format fit
+  garmin.py health daily-sleep-cn
 
 Health route targets:
   auth | login | status       Authentication helper
@@ -86,6 +88,7 @@ Health route targets:
   chart <chart>               HTML chart/dashboard generation
   query <metric> <time>       time-based health query
   activity-files <action>     FIT/GPX/TCX download, parse, query, analyze
+  daily-sleep-cn              Garmin CN previous-night sleep report
 """
 
 CN_HELP = """CN route examples:
@@ -184,6 +187,8 @@ def dispatch_health(args: Sequence[str], profile: str) -> int:
         return run_python(HEALTH_ACTIVITY_FILES, rest, profile)
     if target in ACTIVITY_FILE_ACTIONS:
         return run_python(HEALTH_ACTIVITY_FILES, [target, *rest], profile)
+    if target in {"daily-sleep-cn", "sleep-report-cn"}:
+        return run_python(HEALTH_DAILY_SLEEP_CN, rest, "cn")
 
     print(f"Unknown health target: {target}", file=sys.stderr)
     print(HEALTH_HELP.rstrip(), file=sys.stderr)

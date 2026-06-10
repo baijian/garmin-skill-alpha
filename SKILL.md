@@ -68,6 +68,7 @@ python3 <SKILL_DIR>/scripts/garmin.py health extended training_readiness
 python3 <SKILL_DIR>/scripts/garmin.py health chart dashboard --days 30
 python3 <SKILL_DIR>/scripts/garmin.py health query heart_rate "15:00" --date 2026-06-10
 python3 <SKILL_DIR>/scripts/garmin.py health activity-files download --activity-id 123456 --format fit
+python3 <SKILL_DIR>/scripts/garmin.py health daily-sleep-cn
 ```
 
 Health subroutes:
@@ -82,6 +83,7 @@ Health subroutes:
 - `chart`: `sleep`, `body_battery`, `hrv`, `activities`, `dashboard`.
 - `query`: time-based health queries.
 - `activity-files`: activity file download, parse, query, and analysis.
+- `daily-sleep-cn`: previous-night Garmin CN sleep daily report.
 
 Direct health script examples:
 
@@ -91,6 +93,7 @@ python3 <SKILL_DIR>/scripts/health/garmin_data_extended.py training_readiness --
 python3 <SKILL_DIR>/scripts/health/garmin_chart.py dashboard --days 30 --profile cn
 python3 <SKILL_DIR>/scripts/health/garmin_query.py heart_rate "15:00" --profile cn
 python3 <SKILL_DIR>/scripts/health/garmin_activity_files.py download --activity-id 123456 --format fit --profile global
+python3 <SKILL_DIR>/scripts/health/scripts/daily_sleep_report_cn.py
 python3 <SKILL_DIR>/scripts/health/garmin_auth.py status --profile all
 ```
 
