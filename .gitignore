@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+
+# Local credentials and generated Garmin artifacts.
+config.json
+scripts/config.json
+*.fit
+*.gpx
+*.tcx
+*.csv
+*.html
