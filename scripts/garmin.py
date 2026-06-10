@@ -31,7 +31,7 @@ CN_CLI = CN_DIR / "garmin_cli.py"
 FIT_PARSER = CN_DIR / "fit_file_parser.py"
 SYNC_CLI = SYNC_DIR / "sync.py"
 
-PROFILES = {"cn", "global"}
+PROFILES = {"all", "cn", "global"}
 
 DATA_METRICS = {
     "sleep",
@@ -67,8 +67,12 @@ ACTIVITY_FILE_ACTIONS = {"download", "parse", "query", "analyze"}
 
 
 HEALTH_HELP = """Health route examples:
+  garmin.py health login --profile cn --email <email> --password <password>
+  garmin.py health login --profile global --email <email> --password <password>
+  garmin.py health status --profile all
   garmin.py health sleep --days 14
-  garmin.py health hrv --days 30
+  garmin.py health hrv --days 30 --profile global
+  GARMIN_PROFILE=cn garmin.py health body_battery --days 7
   garmin.py health extended training_readiness
   garmin.py health chart dashboard --days 30
   garmin.py health query heart_rate "15:00" --date 2026-06-10
@@ -212,6 +216,7 @@ def build_parser() -> argparse.ArgumentParser:
         epilog=(
             "Profile handling:\n"
             "  --profile cn|global may appear anywhere and defaults to cn.\n"
+            "  --profile all is intended for health auth status checks.\n"
             "  The dispatcher strips it before forwarding to child scripts.\n"
         ),
     )

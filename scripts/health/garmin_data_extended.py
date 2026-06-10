@@ -212,10 +212,12 @@ def main():
     parser.add_argument("--date", help="Date (YYYY-MM-DD), defaults to today")
     parser.add_argument("--start", help="Start date for date ranges (YYYY-MM-DD)")
     parser.add_argument("--end", help="End date for date ranges (YYYY-MM-DD)")
+    parser.add_argument("--profile", choices=["cn", "global"], default=None,
+                       help="Garmin profile (default: GARMIN_PROFILE or cn)")
     
     args = parser.parse_args()
     
-    client = get_client()
+    client = get_client(args.profile)
     if not client:
         print('{"error": "Not authenticated"}')
         sys.exit(1)

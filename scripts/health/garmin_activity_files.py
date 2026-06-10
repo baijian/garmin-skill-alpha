@@ -266,6 +266,8 @@ def main():
     parser.add_argument("--distance", type=float, help="Query data at distance (meters)")
     parser.add_argument("--time", help="Query data at time (ISO format)")
     parser.add_argument("--output-dir", default="/tmp", help="Output directory")
+    parser.add_argument("--profile", choices=["cn", "global"], default=None,
+                       help="Garmin profile (default: GARMIN_PROFILE or cn)")
     
     args = parser.parse_args()
     
@@ -274,7 +276,7 @@ def main():
             print('{"error": "activity-id required for download"}')
             sys.exit(1)
         
-        client = get_client()
+        client = get_client(args.profile)
         if not client:
             print('{"error": "Not authenticated"}')
             sys.exit(1)

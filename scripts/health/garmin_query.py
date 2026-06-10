@@ -214,10 +214,12 @@ def main():
                        help="Metric to query")
     parser.add_argument("time", help="Time (e.g., '3:00 PM', '15:00', '2024-01-15 14:30')")
     parser.add_argument("--date", help="Date if not included in time (YYYY-MM-DD)")
+    parser.add_argument("--profile", choices=["cn", "global"], default=None,
+                       help="Garmin profile (default: GARMIN_PROFILE or cn)")
     
     args = parser.parse_args()
     
-    client = get_client()
+    client = get_client(args.profile)
     if not client:
         print('{"error": "Not authenticated"}')
         sys.exit(1)

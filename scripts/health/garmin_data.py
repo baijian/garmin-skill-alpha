@@ -323,11 +323,13 @@ def main():
     parser.add_argument("--days", type=int, default=7, help="Number of days to fetch (default: 7)")
     parser.add_argument("--start", help="Start date (YYYY-MM-DD)")
     parser.add_argument("--end", help="End date (YYYY-MM-DD)")
+    parser.add_argument("--profile", choices=["cn", "global"], default=None,
+                       help="Garmin profile (default: GARMIN_PROFILE or cn)")
     
     args = parser.parse_args()
     
     # Get authenticated client
-    client = get_client()
+    client = get_client(args.profile)
     if not client:
         print('{"error": "Not authenticated. Run: python3 scripts/garmin_auth.py login --email YOUR_EMAIL --password YOUR_PASSWORD"}')
         sys.exit(1)

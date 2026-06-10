@@ -39,15 +39,31 @@ python3 <SKILL_DIR>/scripts/garmin.py --help
 ```
 
 The dispatcher accepts `--profile cn|global` anywhere in the command line and
-defaults to `cn`. The profile is stripped before calling child scripts and is
-also exposed as `GARMIN_PROFILE` for scripts that support profile-aware behavior.
+defaults to `cn`. It also accepts `--profile all` for auth status checks. The
+profile is stripped before calling child scripts and is exposed as
+`GARMIN_PROFILE` for profile-aware scripts.
+
+Health scripts can also be run directly with `--profile cn|global`, or by
+setting `GARMIN_PROFILE=cn` / `GARMIN_PROFILE=global`.
+
+Health token stores:
+
+- CN: `~/.config/garmin/cn/`
+- Global: `~/.config/garmin/global/`
+- Legacy global tokens from `~/.clawdbot/garmin/` are copied into the new global
+  token directory when the global profile is used and the new directory is not
+  present.
 
 ### Health route
 
 ```bash
 python3 <SKILL_DIR>/scripts/garmin.py health --help
+python3 <SKILL_DIR>/scripts/garmin.py health login --profile cn --email <email> --password <password>
+python3 <SKILL_DIR>/scripts/garmin.py health login --profile global --email <email> --password <password>
+python3 <SKILL_DIR>/scripts/garmin.py health status --profile all
 python3 <SKILL_DIR>/scripts/garmin.py health sleep --days 14
-python3 <SKILL_DIR>/scripts/garmin.py health hrv --days 30
+python3 <SKILL_DIR>/scripts/garmin.py health hrv --days 30 --profile global
+GARMIN_PROFILE=cn python3 <SKILL_DIR>/scripts/garmin.py health body_battery --days 7
 python3 <SKILL_DIR>/scripts/garmin.py health extended training_readiness
 python3 <SKILL_DIR>/scripts/garmin.py health chart dashboard --days 30
 python3 <SKILL_DIR>/scripts/garmin.py health query heart_rate "15:00" --date 2026-06-10
@@ -66,6 +82,17 @@ Health subroutes:
 - `chart`: `sleep`, `body_battery`, `hrv`, `activities`, `dashboard`.
 - `query`: time-based health queries.
 - `activity-files`: activity file download, parse, query, and analysis.
+
+Direct health script examples:
+
+```bash
+python3 <SKILL_DIR>/scripts/health/garmin_data.py sleep --days 14 --profile cn
+python3 <SKILL_DIR>/scripts/health/garmin_data_extended.py training_readiness --profile global
+python3 <SKILL_DIR>/scripts/health/garmin_chart.py dashboard --days 30 --profile cn
+python3 <SKILL_DIR>/scripts/health/garmin_query.py heart_rate "15:00" --profile cn
+python3 <SKILL_DIR>/scripts/health/garmin_activity_files.py download --activity-id 123456 --format fit --profile global
+python3 <SKILL_DIR>/scripts/health/garmin_auth.py status --profile all
+```
 
 For interpretation guidance, read `references/health_analysis.md`. For extended
 metric examples, read `references/extended_capabilities.md`.

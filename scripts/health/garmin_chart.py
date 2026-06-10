@@ -489,11 +489,13 @@ def main():
                        help="Type of chart to generate")
     parser.add_argument("--days", type=int, default=30, help="Number of days (default: 30)")
     parser.add_argument("--output", help="Output HTML file (default: opens in browser)")
+    parser.add_argument("--profile", choices=["cn", "global"], default=None,
+                       help="Garmin profile (default: GARMIN_PROFILE or cn)")
     
     args = parser.parse_args()
     
     # Get authenticated client
-    client = get_client()
+    client = get_client(args.profile)
     if not client:
         print("❌ Not authenticated. Run: python3 scripts/garmin_auth.py login", file=sys.stderr)
         sys.exit(1)
